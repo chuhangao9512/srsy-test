@@ -1,0 +1,2408 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>识人私宴 — 以名识人，以宴会友</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200;300;400;500;600;700;900&family=Noto+Sans+SC:wght@100;300;400;500;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+<style>
+/* ========== CSS Variables ========== */
+:root {
+  --ink: #1a1714;
+  --ink-light: #2a2520;
+  --ink-mid: #3d3630;
+  --parchment: #f5f0e8;
+  --parchment-dim: #ebe5d9;
+  --gold: #c9a96e;
+  --gold-light: #d4ba85;
+  --gold-dim: #a08450;
+  --rust: #8b5e3c;
+  --jade: #6b8f71;
+  --cloud: rgba(245, 240, 232, 0.08);
+  --cloud-solid: rgba(245, 240, 232, 0.15);
+
+  --font-display: 'ZCOOL XiaoWei', 'Noto Serif SC', serif;
+  --font-serif: 'Noto Serif SC', 'STSong', 'SimSun', serif;
+  --font-sans: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* ========== Reset & Base ========== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--ink);
+  color: var(--parchment);
+  line-height: 1.8;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+a { color: var(--gold); text-decoration: none; transition: color 0.3s; }
+a:hover { color: var(--gold-light); }
+
+/* ========== Scrollbar ========== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--ink); }
+::-webkit-scrollbar-thumb { background: var(--ink-mid); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold-dim); }
+
+/* ========== Navigation ========== */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 1.2rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.5s var(--ease-out);
+  background: transparent;
+}
+
+.nav.scrolled {
+  background: rgba(26, 23, 20, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 0.8rem 3rem;
+  border-bottom: 1px solid rgba(201, 169, 110, 0.1);
+}
+
+.nav-brand {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--parchment);
+  letter-spacing: 0.3em;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: rgba(245, 240, 232, 0.6);
+  letter-spacing: 0.15em;
+  transition: color 0.3s;
+  font-weight: 300;
+}
+
+.nav-links a:hover { color: var(--gold); }
+
+/* ========== Section Commons ========== */
+.section {
+  padding: 8rem 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.4em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  font-weight: 300;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  color: var(--parchment);
+  margin-bottom: 1.5rem;
+  line-height: 1.4;
+  font-weight: 400;
+}
+
+.section-desc {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  color: rgba(245, 240, 232, 0.55);
+  line-height: 2;
+  max-width: 600px;
+  font-weight: 300;
+}
+
+.divider {
+  width: 40px;
+  height: 1px;
+  background: var(--gold);
+  margin: 3rem 0;
+  opacity: 0.5;
+}
+
+/* ========== HERO ========== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 40%, rgba(201, 169, 110, 0.04) 0%, transparent 70%),
+    radial-gradient(ellipse 80% 60% at 30% 70%, rgba(139, 94, 60, 0.03) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.hero-ornament {
+  position: absolute;
+  font-family: var(--font-display);
+  color: rgba(201, 169, 110, 0.04);
+  font-size: 20rem;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+}
+
+.hero-ornament.left { top: 10%; left: -5%; }
+.hero-ornament.right { bottom: 5%; right: -5%; }
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  animation: heroFadeIn 1.5s var(--ease-out) both;
+}
+
+@keyframes heroFadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-subtitle {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.5em;
+  color: var(--gold);
+  margin-bottom: 2.5rem;
+  font-weight: 300;
+  animation: heroFadeIn 1.5s var(--ease-out) 0.2s both;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  color: var(--parchment);
+  letter-spacing: 0.2em;
+  margin-bottom: 1rem;
+  line-height: 1.3;
+  font-weight: 400;
+  animation: heroFadeIn 1.5s var(--ease-out) 0.4s both;
+}
+
+.hero-tagline {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: rgba(245, 240, 232, 0.5);
+  letter-spacing: 0.15em;
+  margin-bottom: 4rem;
+  font-weight: 200;
+  animation: heroFadeIn 1.5s var(--ease-out) 0.6s both;
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1rem 2.8rem;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+  background: transparent;
+  transition: all 0.5s var(--ease-out);
+  animation: heroFadeIn 1.5s var(--ease-out) 0.8s both;
+}
+
+.hero-cta:hover {
+  background: var(--gold);
+  color: var(--ink);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 40px rgba(201, 169, 110, 0.15);
+}
+
+.hero-cta .arrow {
+  transition: transform 0.3s var(--ease-out);
+  font-size: 1.1rem;
+}
+
+.hero-cta:hover .arrow { transform: translateX(4px); }
+
+.hero-scroll {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  animation: heroFadeIn 1.5s var(--ease-out) 1.2s both;
+}
+
+.hero-scroll span {
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  color: rgba(245, 240, 232, 0.25);
+  font-weight: 300;
+  writing-mode: vertical-rl;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--gold-dim), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(1); }
+  50% { opacity: 0.8; transform: scaleY(1.2); }
+}
+
+/* ========== NAME ANALYSIS INPUT ========== */
+.analysis-section {
+  padding: 6rem 0;
+  position: relative;
+}
+
+.analysis-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 169, 110, 0.15), transparent);
+}
+
+.analysis-container {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+.analysis-header {
+  margin-bottom: 4rem;
+}
+
+.step-indicator {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.step-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(245, 240, 232, 0.15);
+  transition: all 0.5s var(--ease-out);
+}
+
+.step-dot.active {
+  background: var(--gold);
+  box-shadow: 0 0 12px rgba(201, 169, 110, 0.3);
+}
+
+.step-dot.done { background: var(--gold-dim); }
+
+.input-stage {
+  display: none;
+  animation: stageFadeIn 0.6s var(--ease-out) both;
+}
+
+.input-stage.active { display: block; }
+
+@keyframes stageFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.input-label {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  color: rgba(245, 240, 232, 0.7);
+  margin-bottom: 2rem;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+}
+
+.name-input {
+  width: 100%;
+  max-width: 400px;
+  padding: 1.2rem 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(245, 240, 232, 0.15);
+  color: var(--parchment);
+  font-family: var(--font-display);
+  font-size: 2rem;
+  text-align: center;
+  letter-spacing: 0.3em;
+  outline: none;
+  transition: border-color 0.3s;
+  caret-color: var(--gold);
+}
+
+.name-input:focus {
+  border-bottom-color: var(--gold);
+}
+
+.name-input::placeholder {
+  color: rgba(245, 240, 232, 0.15);
+  font-size: 1.4rem;
+}
+
+/* Gender & Date selectors */
+.select-group {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.select-btn {
+  padding: 0.8rem 2.5rem;
+  border: 1px solid rgba(245, 240, 232, 0.12);
+  background: transparent;
+  color: rgba(245, 240, 232, 0.5);
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s var(--ease-out);
+  letter-spacing: 0.15em;
+}
+
+.select-btn:hover {
+  border-color: rgba(201, 169, 110, 0.3);
+  color: var(--parchment);
+}
+
+.select-btn.selected {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(201, 169, 110, 0.05);
+}
+
+.date-inputs {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.date-input {
+  width: 120px;
+  padding: 0.8rem 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(245, 240, 232, 0.15);
+  color: var(--parchment);
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.3s;
+  caret-color: var(--gold);
+}
+
+.date-input:focus { border-bottom-color: var(--gold); }
+
+.date-input::placeholder {
+  color: rgba(245, 240, 232, 0.2);
+  font-size: 0.95rem;
+}
+
+.region-input {
+  width: 100%;
+  max-width: 300px;
+  padding: 0.8rem 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(245, 240, 232, 0.15);
+  color: var(--parchment);
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.3s;
+  caret-color: var(--gold);
+}
+
+.region-input:focus { border-bottom-color: var(--gold); }
+.region-input::placeholder { color: rgba(245, 240, 232, 0.2); }
+
+.next-btn {
+  margin-top: 3rem;
+  padding: 0.9rem 3rem;
+  border: 1px solid rgba(201, 169, 110, 0.4);
+  background: transparent;
+  color: var(--gold);
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  letter-spacing: 0.25em;
+  cursor: pointer;
+  transition: all 0.4s var(--ease-out);
+}
+
+.next-btn:hover {
+  background: rgba(201, 169, 110, 0.08);
+  border-color: var(--gold);
+  transform: translateY(-1px);
+}
+
+/* ========== RESULT SHOWCASE ========== */
+.result-section {
+  padding: 6rem 0;
+  position: relative;
+}
+
+.result-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 169, 110, 0.15), transparent);
+}
+
+.result-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.result-header {
+  text-align: center;
+  margin-bottom: 5rem;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+/* Long report card */
+.report-card {
+  background: #1e1b17;
+  border: 1px solid rgba(245, 240, 232, 0.06);
+  padding: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.report-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.3;
+}
+
+.report-tag {
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  color: var(--gold-dim);
+  font-weight: 300;
+  margin-bottom: 1.5rem;
+  font-family: var(--font-sans);
+}
+
+.report-name {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  color: var(--parchment);
+  letter-spacing: 0.2em;
+  margin-bottom: 0.5rem;
+}
+
+.report-meta {
+  font-size: 0.8rem;
+  color: rgba(245, 240, 232, 0.3);
+  margin-bottom: 2rem;
+  font-weight: 300;
+}
+
+.report-text {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  color: rgba(245, 240, 232, 0.6);
+  line-height: 2.2;
+  font-weight: 300;
+}
+
+.report-text p { margin-bottom: 1.5rem; }
+
+.report-text .highlight {
+  color: var(--gold-light);
+  font-weight: 400;
+}
+
+.report-advice {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(245, 240, 232, 0.06);
+}
+
+.report-advice-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  margin-bottom: 1rem;
+  font-family: var(--font-sans);
+  font-weight: 300;
+}
+
+/* Share card */
+.share-card {
+  background: var(--parchment);
+  color: var(--ink);
+  padding: 2.5rem;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.share-card-inner {
+  border: 1px solid rgba(26, 23, 20, 0.08);
+  padding: 2rem;
+  background: var(--parchment);
+}
+
+.share-card-top {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(26, 23, 20, 0.08);
+}
+
+.share-name-char {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  color: var(--ink);
+  letter-spacing: 0.3em;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+/* Auto-shrink name on smaller cards */
+@media (max-width: 600px) {
+  .share-name-char {
+    font-size: 2.8rem;
+    letter-spacing: 0.25em;
+  }
+}
+
+.share-name-pinyin {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.4em;
+  color: var(--ink-mid);
+  margin-top: 0.5rem;
+  font-weight: 300;
+}
+
+.share-elements {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.element-item {
+  text-align: center;
+}
+
+.element-char {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--ink);
+}
+
+.element-label {
+  font-size: 0.6rem;
+  color: var(--ink-mid);
+  letter-spacing: 0.15em;
+  margin-top: 0.3rem;
+  font-weight: 300;
+}
+
+.share-poem {
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  color: var(--ink-mid);
+  line-height: 2.2;
+  text-align: center;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.share-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(26, 23, 20, 0.08);
+}
+
+.share-brand {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  color: var(--ink);
+}
+
+.share-qr {
+  width: 50px;
+  height: 50px;
+  background: rgba(26, 23, 20, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.5rem;
+  color: var(--ink-mid);
+}
+
+.result-note {
+  text-align: center;
+  margin-top: 3rem;
+  font-size: 0.8rem;
+  color: rgba(245, 240, 232, 0.3);
+  font-weight: 300;
+  font-style: italic;
+}
+
+/* ========== ASK SECTION ========== */
+.ask-section {
+  padding: 6rem 0;
+  position: relative;
+}
+
+.ask-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 169, 110, 0.15), transparent);
+}
+
+.ask-container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+.ask-input-wrap {
+  margin-top: 3rem;
+  position: relative;
+}
+
+.ask-textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 1.5rem;
+  background: rgba(245, 240, 232, 0.03);
+  border: 1px solid rgba(245, 240, 232, 0.08);
+  color: var(--parchment);
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  line-height: 1.8;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.3s;
+  caret-color: var(--gold);
+}
+
+.ask-textarea:focus { border-color: rgba(201, 169, 110, 0.3); }
+
+.ask-textarea::placeholder {
+  color: rgba(245, 240, 232, 0.2);
+  font-style: italic;
+}
+
+.ask-hint {
+  font-size: 0.75rem;
+  color: rgba(245, 240, 232, 0.25);
+  margin-top: 1rem;
+  font-weight: 300;
+}
+
+.ask-submit {
+  margin-top: 2rem;
+  padding: 1rem 3rem;
+  background: var(--gold);
+  color: var(--ink);
+  border: none;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  letter-spacing: 0.25em;
+  cursor: pointer;
+  transition: all 0.4s var(--ease-out);
+}
+
+.ask-submit:hover {
+  background: var(--gold-light);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 30px rgba(201, 169, 110, 0.2);
+}
+
+/* ========== PRICING ========== */
+.pricing-section {
+  padding: 6rem 0;
+  position: relative;
+}
+
+.pricing-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 169, 110, 0.15), transparent);
+}
+
+.pricing-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.pricing-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.price-card {
+  background: rgba(245, 240, 232, 0.02);
+  border: 1px solid rgba(245, 240, 232, 0.06);
+  padding: 2.5rem 2rem;
+  transition: all 0.5s var(--ease-out);
+  position: relative;
+  overflow: hidden;
+}
+
+.price-card:hover {
+  border-color: rgba(201, 169, 110, 0.2);
+  background: rgba(245, 240, 232, 0.04);
+  transform: translateY(-4px);
+}
+
+.price-card.featured {
+  border-color: rgba(201, 169, 110, 0.3);
+  background: rgba(201, 169, 110, 0.04);
+}
+
+.price-card.featured::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gold);
+}
+
+.price-tier {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+  margin-bottom: 1.2rem;
+  font-weight: 300;
+}
+
+.price-name {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--parchment);
+  margin-bottom: 0.8rem;
+  letter-spacing: 0.1em;
+}
+
+.price-amount {
+  font-family: var(--font-serif);
+  margin-bottom: 1.5rem;
+}
+
+.price-amount .currency {
+  font-size: 0.9rem;
+  color: rgba(245, 240, 232, 0.5);
+}
+
+.price-amount .number {
+  font-size: 2.2rem;
+  color: var(--parchment);
+  font-weight: 600;
+}
+
+.price-amount .unit {
+  font-size: 0.8rem;
+  color: rgba(245, 240, 232, 0.3);
+  font-weight: 300;
+}
+
+.price-free {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.1em;
+}
+
+.price-features {
+  list-style: none;
+  margin-bottom: 2rem;
+}
+
+.price-features li {
+  font-size: 0.85rem;
+  color: rgba(245, 240, 232, 0.45);
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(245, 240, 232, 0.04);
+  font-weight: 300;
+}
+
+.price-features li:last-child { border-bottom: none; }
+
+.price-btn {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid rgba(201, 169, 110, 0.3);
+  background: transparent;
+  color: var(--gold);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+  transition: all 0.3s var(--ease-out);
+}
+
+.price-btn:hover {
+  background: rgba(201, 169, 110, 0.08);
+}
+
+.price-card.featured .price-btn {
+  background: var(--gold);
+  color: var(--ink);
+  border-color: var(--gold);
+}
+
+.price-card.featured .price-btn:hover {
+  background: var(--gold-light);
+}
+
+/* ========== PARTNERS ========== */
+.partners-section {
+  padding: 6rem 0;
+  position: relative;
+}
+
+.partners-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 169, 110, 0.15), transparent);
+}
+
+.partners-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+.partners-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  margin-top: 4rem;
+}
+
+.partner-item {
+  aspect-ratio: 3/2;
+  background: rgba(245, 240, 232, 0.03);
+  border: 1px solid rgba(245, 240, 232, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  transition: all 0.4s var(--ease-out);
+}
+
+.partner-item:hover {
+  border-color: rgba(201, 169, 110, 0.15);
+  background: rgba(245, 240, 232, 0.05);
+}
+
+.partner-name {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  color: rgba(245, 240, 232, 0.5);
+  letter-spacing: 0.1em;
+  font-weight: 300;
+}
+
+.partner-type {
+  font-size: 0.6rem;
+  color: rgba(245, 240, 232, 0.2);
+  letter-spacing: 0.2em;
+  margin-top: 0.4rem;
+  font-weight: 300;
+}
+
+/* ========== ABOUT ========== */
+.about-section {
+  padding: 6rem 0;
+  position: relative;
+}
+
+.about-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 169, 110, 0.15), transparent);
+}
+
+.about-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+}
+
+.about-brand {}
+
+.about-master {
+  padding-left: 3rem;
+  border-left: 1px solid rgba(245, 240, 232, 0.06);
+}
+
+.master-quote {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  color: rgba(245, 240, 232, 0.5);
+  line-height: 2.2;
+  font-style: italic;
+  margin-bottom: 1.5rem;
+  font-weight: 300;
+}
+
+.master-name {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--gold);
+  letter-spacing: 0.15em;
+}
+
+.master-desc {
+  font-size: 0.8rem;
+  color: rgba(245, 240, 232, 0.3);
+  margin-top: 0.3rem;
+  font-weight: 300;
+}
+
+/* ========== CONTACT / CTA ========== */
+.contact-section {
+  padding: 8rem 0;
+  text-align: center;
+  position: relative;
+}
+
+.contact-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 169, 110, 0.15), transparent);
+}
+
+.contact-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.contact-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--parchment);
+  margin-bottom: 1rem;
+  letter-spacing: 0.15em;
+}
+
+.contact-desc {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  color: rgba(245, 240, 232, 0.4);
+  line-height: 2;
+  margin-bottom: 3rem;
+  font-weight: 300;
+}
+
+.contact-btn {
+  display: inline-block;
+  padding: 1.1rem 3.5rem;
+  background: var(--gold);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+  border: none;
+  transition: all 0.4s var(--ease-out);
+}
+
+.contact-btn:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 40px rgba(201, 169, 110, 0.2);
+}
+
+.contact-info {
+  margin-top: 3rem;
+  font-size: 0.8rem;
+  color: rgba(245, 240, 232, 0.25);
+  font-weight: 300;
+  line-height: 2;
+}
+
+/* ========== FOOTER ========== */
+.footer {
+  padding: 3rem;
+  text-align: center;
+  border-top: 1px solid rgba(245, 240, 232, 0.04);
+}
+
+.footer-brand {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.3em;
+  color: rgba(245, 240, 232, 0.3);
+  margin-bottom: 0.8rem;
+}
+
+.footer-text {
+  font-size: 0.7rem;
+  color: rgba(245, 240, 232, 0.15);
+  font-weight: 300;
+  letter-spacing: 0.1em;
+}
+
+/* ========== SCROLL ANIMATIONS ========== */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s var(--ease-out);
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in-left {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: all 0.8s var(--ease-out);
+}
+
+.fade-in-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.fade-in-right {
+  opacity: 0;
+  transform: translateX(30px);
+  transition: all 0.8s var(--ease-out);
+}
+
+.fade-in-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ========== Loading State ========== */
+.loading-state {
+  text-align: center;
+  padding: 6rem 2rem;
+}
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(201, 169, 110, 0.15);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  color: rgba(245, 240, 232, 0.6);
+  letter-spacing: 0.15em;
+  font-weight: 300;
+}
+
+.loading-sub {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  color: var(--gold);
+  letter-spacing: 0.3em;
+}
+
+/* ========== Ask Result ========== */
+.ask-result {
+  margin-top: 2rem;
+  padding: 2.5rem;
+  background: rgba(245, 240, 232, 0.03);
+  border: 1px solid rgba(245, 240, 232, 0.06);
+  text-align: left;
+  display: none;
+}
+
+.ask-result.visible { display: block; }
+
+.ask-result-tag {
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  color: var(--gold-dim);
+  margin-bottom: 1rem;
+  font-family: var(--font-sans);
+  font-weight: 300;
+}
+
+.ask-result-text {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  color: rgba(245, 240, 232, 0.6);
+  line-height: 2.2;
+  font-weight: 300;
+}
+
+.ask-loading {
+  display: none;
+  text-align: center;
+  padding: 2rem;
+}
+
+.ask-loading.visible { display: block; }
+
+/* ========== PRICING (3-col) ========== */
+.pricing-grid.three-col {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.pricing-note {
+  text-align: center;
+  margin-top: 2.5rem;
+  font-size: 0.8rem;
+  color: rgba(245, 240, 232, 0.3);
+  font-weight: 300;
+  letter-spacing: 0.1em;
+}
+
+/* ========== Save Image Button ========== */
+.save-img-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 2rem;
+  padding: 0.7rem;
+  background: rgba(201, 169, 110, 0.06);
+  border: 1px solid rgba(201, 169, 110, 0.15);
+  color: var(--gold);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+  transition: all 0.3s var(--ease-out);
+}
+
+.save-img-btn:hover {
+  background: rgba(201, 169, 110, 0.12);
+  border-color: var(--gold);
+}
+
+.save-img-btn-dark {
+  background: rgba(26, 23, 20, 0.04);
+  border-color: rgba(26, 23, 20, 0.1);
+  color: var(--ink-mid);
+}
+
+.save-img-btn-dark:hover {
+  background: rgba(26, 23, 20, 0.08);
+  border-color: var(--ink-mid);
+}
+
+/* ========== Partner Hover-Reveal Card ========== */
+.partner-card-hover {
+  aspect-ratio: 3/2;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(245, 240, 232, 0.06);
+  cursor: pointer;
+}
+
+.partner-card-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.8s var(--ease-out);
+}
+
+.partner-card-hover:hover .partner-card-bg {
+  transform: scale(1.05);
+}
+
+.partner-card-default {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(26, 23, 20, 0.55);
+  backdrop-filter: blur(2px);
+  transition: opacity 0.5s var(--ease-out);
+  z-index: 2;
+}
+
+.partner-card-hover:hover .partner-card-default,
+.partner-card-hover.active .partner-card-default {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.partner-card-reveal {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1.8rem;
+  background: rgba(26, 23, 20, 0.85);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  transition: opacity 0.5s var(--ease-out);
+  z-index: 3;
+  overflow-y: auto;
+}
+
+.partner-card-hover:hover .partner-card-reveal,
+.partner-card-hover.active .partner-card-reveal {
+  opacity: 1;
+}
+
+.partner-reveal-name {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--gold);
+  letter-spacing: 0.15em;
+  margin-bottom: 0.8rem;
+}
+
+.partner-reveal-text {
+  font-family: var(--font-serif);
+  font-size: 0.78rem;
+  color: rgba(245, 240, 232, 0.65);
+  line-height: 1.9;
+  font-weight: 300;
+}
+
+.partner-reveal-tag {
+  margin-top: 0.8rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(245, 240, 232, 0.08);
+  font-family: var(--font-serif);
+  font-size: 0.72rem;
+  color: var(--gold-dim);
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.7;
+}
+
+.partner-card-hover.partner-card-wide {
+  grid-column: span 2;
+  aspect-ratio: 3/1;
+}
+
+@media (max-width: 900px) {
+  .partner-card-hover.partner-card-wide {
+    grid-column: span 2;
+    aspect-ratio: 3/2;
+  }
+}
+
+@media (max-width: 600px) {
+  .partner-card-hover.partner-card-wide {
+    grid-column: span 1;
+    aspect-ratio: 3/2;
+  }
+}
+
+/* ========== Master Credentials ========== */
+.master-title-sub {
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  color: var(--gold-dim);
+  letter-spacing: 0.15em;
+  margin-top: 0.3rem;
+  margin-bottom: 0.5rem;
+  font-weight: 300;
+}
+
+.master-credentials {
+  margin-top: 1.5rem;
+}
+
+.master-credential-item {
+  font-size: 0.8rem;
+  color: rgba(245, 240, 232, 0.4);
+  padding: 0.4rem 0;
+  border-bottom: 1px solid rgba(245, 240, 232, 0.04);
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  line-height: 1.6;
+}
+
+.master-credential-item:last-child { border-bottom: none; }
+
+/* ========== Auth Modal ========== */
+.auth-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-overlay.active { display: flex; }
+
+.auth-modal {
+  background: var(--ink-light);
+  border: 1px solid rgba(245, 240, 232, 0.08);
+  padding: 3rem;
+  width: 90%;
+  max-width: 420px;
+  position: relative;
+  animation: modalFadeIn 0.4s var(--ease-out) both;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.auth-close {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  color: rgba(245, 240, 232, 0.3);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.3s;
+  line-height: 1;
+}
+
+.auth-close:hover { color: var(--parchment); }
+
+.auth-header { margin-bottom: 2rem; }
+
+.auth-title {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--parchment);
+  letter-spacing: 0.1em;
+}
+
+.auth-body {}
+
+.auth-field { margin-bottom: 1.2rem; }
+
+.auth-input {
+  width: 100%;
+  padding: 1rem;
+  background: rgba(245, 240, 232, 0.03);
+  border: 1px solid rgba(245, 240, 232, 0.1);
+  color: var(--parchment);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.3s;
+  caret-color: var(--gold);
+}
+
+.auth-input:focus { border-color: rgba(201, 169, 110, 0.4); }
+
+.auth-input::placeholder { color: rgba(245, 240, 232, 0.2); }
+
+.auth-code-field {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.auth-code-input { flex: 1; }
+
+.auth-code-btn {
+  padding: 0 1.2rem;
+  background: transparent;
+  border: 1px solid rgba(201, 169, 110, 0.3);
+  color: var(--gold);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.3s;
+}
+
+.auth-code-btn:hover {
+  background: rgba(201, 169, 110, 0.08);
+}
+
+.auth-submit {
+  width: 100%;
+  padding: 1rem;
+  margin-top: 0.5rem;
+  background: var(--gold);
+  color: var(--ink);
+  border: none;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+  transition: all 0.3s var(--ease-out);
+}
+
+.auth-submit:hover {
+  background: var(--gold-light);
+}
+
+.auth-terms {
+  margin-top: 1.2rem;
+  font-size: 0.7rem;
+  color: rgba(245, 240, 232, 0.25);
+  text-align: center;
+  font-weight: 300;
+}
+
+.auth-terms a {
+  color: rgba(201, 169, 110, 0.5);
+}
+
+/* ========== RESPONSIVE updates ========== */
+@media (max-width: 900px) {
+  .pricing-grid.three-col {
+    grid-template-columns: 1fr;
+  }
+
+}
+@media (max-width: 900px) {
+  .nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .section { padding: 5rem 1.5rem; }
+
+  .result-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .pricing-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .partners-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .about-container {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .about-master {
+    padding-left: 0;
+    border-left: none;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(245, 240, 232, 0.06);
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-title { letter-spacing: 0.1em; }
+
+  .select-group { flex-direction: column; align-items: center; }
+
+  .date-inputs { flex-direction: column; align-items: center; }
+
+  .share-card { padding: 1.5rem; }
+  .share-card-inner { padding: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== Navigation ===== -->
+<nav class="nav" id="mainNav">
+  <div class="nav-brand">识人私宴</div>
+  <ul class="nav-links">
+    <li><a href="#analysis">姓名测算</a></li>
+    <li><a href="#ask">以名问事</a></li>
+    <li><a href="#pricing">服务体系</a></li>
+    <li><a href="#about">关于我们</a></li>
+    <li><a href="#contact">预约会所</a></li>
+    <li><a href="#partners">合作机构</a></li>
+  </ul>
+</nav>
+
+<!-- ===== Hero ===== -->
+<section class="hero" id="hero">
+  <div class="hero-ornament left">名</div>
+  <div class="hero-ornament right">宴</div>
+  <div class="hero-content">
+    <p class="hero-subtitle">姓 名 文 化 · 高 端 私 宴</p>
+    <h1 class="hero-title">识人私宴</h1>
+    <p class="hero-tagline">以名识人，以宴会友，以文化结缘</p>
+    <a href="#analysis" class="hero-cta">
+      开始姓名测算 <span class="arrow">→</span>
+    </a>
+  </div>
+  <div class="hero-scroll">
+    <span>向下探索</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ===== Name Analysis Input ===== -->
+<section class="analysis-section" id="analysis">
+  <div class="analysis-container">
+    <div class="analysis-header fade-in">
+      <div class="section-label">姓名测算</div>
+      <div class="section-title">你的故事，都写在你的名字里</div>
+      <div class="section-desc" style="margin: 0 auto; text-align: center;">
+        请静下心来，依次输入您的信息。<br>我们将为您解读姓名中蕴含的文化密码。
+      </div>
+    </div>
+
+    <div class="step-indicator" style="margin-top: 3rem;">
+      <div class="step-dot active" data-step="1"></div>
+      <div class="step-dot" data-step="2"></div>
+    </div>
+
+    <!-- Step 1: Name -->
+    <div class="input-stage active" data-stage="1">
+      <div class="input-label">请输入您的姓名</div>
+      <input type="text" class="name-input" id="nameInput" placeholder="姓 名" maxlength="5">
+      <br>
+      <button class="next-btn" onclick="nextStep(2)">继 续</button>
+    </div>
+
+    <!-- Step 2: Gender + Submit -->
+    <div class="input-stage" data-stage="2">
+      <div class="input-label">请选择您的性别</div>
+      <div class="select-group">
+        <button class="select-btn" onclick="selectGender(this, '男')">男</button>
+        <button class="select-btn" onclick="selectGender(this, '女')">女</button>
+      </div>
+      <br>
+      <button class="next-btn" onclick="submitAnalysis()" style="background: var(--gold); color: var(--ink); border-color: var(--gold);">开始解读</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Result Section (Dynamic) ===== -->
+<section class="result-section" id="result">
+  <div class="result-container">
+    <!-- Loading State -->
+    <div class="loading-state" id="loadingState" style="display: none;">
+      <div class="loading-content">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">正在解读您的姓名……</div>
+        <div class="loading-sub" id="loadingName"></div>
+      </div>
+    </div>
+
+    <!-- Live Result (generated by API) -->
+    <div id="liveResult" style="display: none;">
+      <div class="result-header">
+        <div class="section-label">您 的 解 读</div>
+        <div class="section-title" id="liveResultTitle"></div>
+      </div>
+      <div class="result-grid">
+        <div class="report-card" id="liveReportCard">
+          <div class="report-tag">姓 名 解 读</div>
+          <div class="report-name" id="liveReportName"></div>
+          <div class="report-meta" id="liveReportMeta"></div>
+          <div class="report-text" id="liveReportText"></div>
+          <button class="save-img-btn" onclick="saveAsImage('liveReportCard')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            保存长图
+          </button>
+        </div>
+        <div class="share-card" id="liveShareCard">
+          <div class="share-card-inner">
+            <div class="share-card-top">
+              <div class="share-name-char" id="liveShareName"></div>
+              <div class="share-elements" id="liveShareElements"></div>
+            </div>
+            <div class="share-poem" id="liveSharePoem"></div>
+            <div class="share-footer">
+              <div class="share-brand">识人私宴</div>
+              <div class="share-qr">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                  <rect x="2" y="2" width="12" height="12" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                  <rect x="26" y="2" width="12" height="12" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                  <rect x="2" y="26" width="12" height="12" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                  <rect x="5" y="5" width="6" height="6" rx="0.5" fill="currentColor"/>
+                  <rect x="29" y="5" width="6" height="6" rx="0.5" fill="currentColor"/>
+                  <rect x="5" y="29" width="6" height="6" rx="0.5" fill="currentColor"/>
+                  <rect x="18" y="2" width="4" height="4" fill="currentColor" opacity="0.6"/>
+                  <rect x="18" y="18" width="4" height="4" fill="currentColor" opacity="0.6"/>
+                  <rect x="26" y="18" width="4" height="4" fill="currentColor" opacity="0.4"/>
+                  <rect x="34" y="26" width="4" height="4" fill="currentColor" opacity="0.5"/>
+                  <rect x="26" y="34" width="4" height="4" fill="currentColor" opacity="0.5"/>
+                  <rect x="18" y="34" width="4" height="4" fill="currentColor" opacity="0.3"/>
+                  <rect x="18" y="26" width="4" height="4" fill="currentColor" opacity="0.4"/>
+                  <rect x="34" y="34" width="4" height="4" fill="currentColor" opacity="0.6"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <button class="save-img-btn save-img-btn-dark" onclick="saveAsImage('liveShareCard')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            保存卡片
+          </button>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top:2rem;">
+        <button class="next-btn" onclick="document.getElementById('ask').scrollIntoView({behavior:'smooth'})" style="border-color: var(--gold); color: var(--gold);">继续「以名问事」→</button>
+      </div>
+    </div>
+
+    <!-- Static Example (shown by default) -->
+    <div id="staticExample">
+      <div class="result-header fade-in">
+        <div class="section-label">解读示例</div>
+        <div class="section-title">您将获得这样的深度解读</div>
+        <div class="section-desc" style="margin: 0 auto; text-align: center;">
+          每一份报告都结合三十余年姓名学体系生成<br>长文深度解读 + 精美分享卡片
+        </div>
+      </div>
+      <div class="result-grid">
+        <div class="report-card fade-in-left" id="reportCard">
+          <div class="report-tag">深 度 解 读 · 示 例</div>
+          <div class="report-name">林 若 溪</div>
+          <div class="report-meta">壬戌年 · 女 · 浙江杭州</div>
+          <div class="report-text">
+            <p>「若」字如山间轻雾，<span class="highlight">似有若无之间，藏着一种不争而得的从容</span>。此字五行属木，带着生发之气，却不张扬，恰如春日新芽，蓄势而不急发。</p>
+            <p>「溪」为流水，细而不绝，<span class="highlight">曲而不断</span>。溪水之妙在于它从不与山石硬碰，而是绕行、渗透、汇聚，终成大河。此字入名，赋予命主一种柔韧的力量——不是对抗，而是化解。</p>
+            <p>姓氏「林」，双木成林，本身就是一种庇护与繁茂的象征。<span class="highlight">林中有溪，溪畔有若隐若现的身影</span>——这个名字构成了一幅极为完整的山水意境。</p>
+            <div class="report-advice">
+              <div class="report-advice-label">启 示</div>
+              <p>名中藏水，水主智慧与流通。在事业选择上，适宜从事需要沟通协调、资源整合的领域。切忌过于执着于某一条路径——溪水的智慧在于，遇阻则转，终归大海。</p>
+            </div>
+          </div>
+        </div>
+        <div class="share-card fade-in-right" id="shareCard">
+          <div class="share-card-inner">
+            <div class="share-card-top">
+              <div class="share-name-char">林 若 溪</div>
+              <div class="share-name-pinyin">LÍN RUÒ XĪ</div>
+              <div class="share-elements">
+                <div class="element-item"><div class="element-char">木</div><div class="element-label">林</div></div>
+                <div class="element-item"><div class="element-char">木</div><div class="element-label">若</div></div>
+                <div class="element-item"><div class="element-char">水</div><div class="element-label">溪</div></div>
+              </div>
+            </div>
+            <div class="share-poem">林深不知处<br>若水映长天<br>溪声伴月落<br>一名一世间</div>
+            <div class="share-footer">
+              <div class="share-brand">识人私宴</div>
+              <div class="share-qr">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                  <rect x="2" y="2" width="12" height="12" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                  <rect x="26" y="2" width="12" height="12" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                  <rect x="2" y="26" width="12" height="12" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                  <rect x="5" y="5" width="6" height="6" rx="0.5" fill="currentColor"/>
+                  <rect x="29" y="5" width="6" height="6" rx="0.5" fill="currentColor"/>
+                  <rect x="5" y="29" width="6" height="6" rx="0.5" fill="currentColor"/>
+                  <rect x="18" y="2" width="4" height="4" fill="currentColor" opacity="0.6"/>
+                  <rect x="18" y="18" width="4" height="4" fill="currentColor" opacity="0.6"/>
+                  <rect x="26" y="18" width="4" height="4" fill="currentColor" opacity="0.4"/>
+                  <rect x="34" y="26" width="4" height="4" fill="currentColor" opacity="0.5"/>
+                  <rect x="26" y="34" width="4" height="4" fill="currentColor" opacity="0.5"/>
+                  <rect x="18" y="34" width="4" height="4" fill="currentColor" opacity="0.3"/>
+                  <rect x="18" y="26" width="4" height="4" fill="currentColor" opacity="0.4"/>
+                  <rect x="34" y="34" width="4" height="4" fill="currentColor" opacity="0.6"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="result-note fade-in">* 以上为模拟示例，请在上方输入您的姓名获取专属解读</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Ask Section ===== -->
+<section class="ask-section" id="ask">
+  <div class="ask-container">
+    <div class="fade-in">
+      <div class="section-label">以 名 问 事</div>
+      <div class="section-title">一件心事，以姓名为镜</div>
+      <div class="section-desc" style="margin: 0 auto; text-align: center;">
+        完成姓名测算后，您还可以提出一件当下最关心的事。<br>
+        我们将结合您的姓名信息，给出深度的分析与建议。
+      </div>
+    </div>
+
+    <div class="ask-input-wrap fade-in">
+      <textarea class="ask-textarea" id="askTextarea" placeholder="写下您当前最关心的一件事……&#10;&#10;例如：我正在考虑是否要换一份工作，目前的事业方向是否适合我？"></textarea>
+      <div class="ask-hint">每位用户可免费体验一次「以名问事」服务</div>
+      <button class="ask-submit" id="askSubmitBtn" onclick="submitAsk()">提交问事</button>
+      <div class="ask-loading" id="askLoading">
+        <div class="loading-spinner" style="margin: 0 auto;"></div>
+        <div class="loading-text" style="margin-top: 1rem;">正在为您解读……</div>
+      </div>
+      <div class="ask-result" id="askResult">
+        <div class="ask-result-tag">以 名 问 事 · 解 读</div>
+        <div class="ask-result-text" id="askResultText"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Pricing ===== -->
+<section class="pricing-section" id="pricing">
+  <div class="pricing-container">
+    <div class="pricing-header fade-in">
+      <div class="section-label">服 务 体 系</div>
+      <div class="section-title">从线上测算到线下面谈，逐层深入</div>
+    </div>
+
+    <div class="pricing-grid three-col">
+      <!-- Paid Report -->
+      <div class="price-card featured fade-in">
+        <div class="price-tier">深 度 解 读</div>
+        <div class="price-name">姓名全书</div>
+        <div class="price-amount">
+          <span class="currency">¥</span><span class="number">99</span><span class="unit"> / 份</span>
+        </div>
+        <ul class="price-features">
+          <li>补充出生年月日时与出生地</li>
+          <li>千字深度长文解读</li>
+          <li>事业 · 关系 · 健康维度</li>
+          <li>含一次「以名问事」</li>
+          <li>专属分享卡片 + 长图</li>
+        </ul>
+        <button class="price-btn" onclick="openAuth('report')">获取报告</button>
+      </div>
+
+      <!-- Subscription -->
+      <div class="price-card fade-in" style="transition-delay: 0.1s;">
+        <div class="price-tier">持 续 服 务</div>
+        <div class="price-name">月度会员</div>
+        <div class="price-amount">
+          <span class="currency">¥</span><span class="number">199</span><span class="unit"> / 月</span>
+        </div>
+        <ul class="price-features">
+          <li>无限次「以名问事」</li>
+          <li>每月运势指引更新</li>
+          <li>专属会员分析模板</li>
+          <li>优先预约线下服务</li>
+        </ul>
+        <button class="price-btn" onclick="openAuth('member')">成为会员</button>
+      </div>
+
+      <!-- Offline -->
+      <div class="price-card fade-in" style="transition-delay: 0.2s;">
+        <div class="price-tier">至 臻 体 验</div>
+        <div class="price-name">大师面谈</div>
+        <div class="price-amount">
+          <span class="currency">¥</span><span class="number">2,980</span><span class="unit"> 起</span>
+        </div>
+        <ul class="price-features">
+          <li>线下会所一对一面谈</li>
+          <li>三十余年资深姓名学大师</li>
+          <li>改名 · 起名 · 深度咨询</li>
+          <li>含精致茶歇与私宴体验</li>
+        </ul>
+        <button class="price-btn" onclick="openAuth('master')">预约面谈</button>
+      </div>
+    </div>
+
+    <p class="pricing-note fade-in">首次姓名测算免费体验 · 付费服务需注册账号</p>
+  </div>
+</section>
+
+<!-- ===== About ===== -->
+<section class="about-section" id="about">
+  <div class="about-container">
+    <div class="about-brand fade-in-left">
+      <div class="section-label">关 于 品 牌</div>
+      <div class="section-title">识人私宴</div>
+      <div class="divider"></div>
+      <div class="section-desc">
+        「识人私宴」以中国姓名文化为核心方法论，融合当代认知研究与东方文化体系，面向高净值及高认知人群，提供深度的姓名文化咨询服务。
+      </div>
+      <br>
+      <div class="section-desc">
+        我们相信，一个名字不只是符号——它承载着家族的期许、文化的密码与命运的线索。读懂名字，是认识自己的起点，也是理解他人的桥梁。
+      </div>
+    </div>
+
+    <div class="about-master fade-in-right">
+      <div class="section-label">首 席 顾 问</div>
+      <div class="section-title" style="font-size: 1.6rem;">从哲先生</div>
+      <div class="master-title-sub">东方姓名美学倡导者</div>
+      <div class="divider"></div>
+      <div class="master-quote">
+        「名者，命之符也。一个好名字，不在于笔画吉凶，而在于音、形、意与人之气质的深度共振。」
+      </div>
+      <div class="master-credentials">
+        <div class="master-credential-item">《名渊》体系创始人 · 专注女性成长与姓名文化研究三十三年</div>
+        <div class="master-credential-item">《心能定福》学术系统创始人</div>
+        <div class="master-credential-item">高级环境策划师 · 高级心理咨询师</div>
+        <div class="master-credential-item">道家法术奇门遁甲传承人</div>
+        <div class="master-credential-item">此真辟谷修炼高级指导师 · 道家虚极桩法高级培训师</div>
+        <div class="master-credential-item">上古中医祝由术高级培训师 · 空劲气功传承人</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Contact ===== -->
+<section class="contact-section" id="contact">
+  <div class="contact-container fade-in">
+    <div class="section-label">会 所 预 约</div>
+    <div class="contact-title">亲临会所，面见大师</div>
+    <div class="contact-desc">
+      识人私宴会所坐落于杭州，提供私密、精致的一对一姓名咨询体验。<br>
+      一桌好菜，一壶清茶，一场关于名字的深度对话。
+    </div>
+    <button class="contact-btn">预约到访</button>
+    <div class="contact-info">
+      杭州市 · 具体地址待公布<br>
+      预约咨询：请通过微信联系
+    </div>
+  </div>
+</section>
+
+<!-- ===== Partners (moved to end) ===== -->
+<section class="partners-section" id="partners">
+  <div class="partners-container">
+    <div class="fade-in">
+      <div class="section-label">联 名 合 作</div>
+      <div class="section-title">甄选合作，共建品质生活圈</div>
+      <div class="section-desc" style="margin: 0 auto; text-align: center;">
+        识人私宴联合各领域高端品牌，<br>为会员提供专属优惠与尊享体验。
+      </div>
+    </div>
+
+    <div class="partners-grid fade-in" style="margin-top: 4rem;">
+      <!-- 在水壹坊: hover reveal card (spans 2 cols) -->
+      <div class="partner-card-hover partner-card-wide">
+        <div class="partner-card-bg" style="background-image: url('partner-zaishui.jpg');"></div>
+        <div class="partner-card-default">
+          <div class="partner-name">在水壹坊</div>
+          <div class="partner-type">临水私宴空间 · 上海青浦</div>
+        </div>
+        <div class="partner-card-reveal">
+          <div class="partner-reveal-name">在水壹坊</div>
+          <div class="partner-reveal-text">临水而建的私宴空间，白墙暖光与水面相映。以私密包厢与定制化餐叙为特色，注重分寸、秩序与舒适度，适合商务会谈与高质量私宴。</div>
+          <div class="partner-reveal-tag">一处适合认真相聚的水岸会客之所</div>
+        </div>
+      </div>
+
+      <div class="partner-item">
+        <div class="partner-name">即将入驻</div>
+        <div class="partner-type">高端酒店</div>
+      </div>
+      <div class="partner-item">
+        <div class="partner-name">即将入驻</div>
+        <div class="partner-type">医美机构</div>
+      </div>
+      <div class="partner-item">
+        <div class="partner-name">合作洽谈中</div>
+        <div class="partner-type">期待合作</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Registration / Auth Modal ===== -->
+<div class="auth-overlay" id="authOverlay" onclick="closeAuth(event)">
+  <div class="auth-modal">
+    <button class="auth-close" onclick="closeAuthDirect()">&times;</button>
+    <div class="auth-header">
+      <div class="section-label" style="margin-bottom: 0.5rem;">注 册 / 登 录</div>
+      <div class="auth-title" id="authTitle">注册以获取深度报告</div>
+    </div>
+    <div class="auth-body">
+      <div class="auth-field">
+        <input type="text" class="auth-input" placeholder="手机号码" id="authPhone">
+      </div>
+      <div class="auth-field auth-code-field">
+        <input type="text" class="auth-input auth-code-input" placeholder="验证码" id="authCode">
+        <button class="auth-code-btn" onclick="sendCode()">获取验证码</button>
+      </div>
+      <button class="auth-submit" onclick="submitAuth()">确认并继续</button>
+      <div class="auth-terms">注册即表示同意 <a href="#">服务条款</a> 与 <a href="#">隐私政策</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Footer ===== -->
+<footer class="footer">
+  <div class="footer-brand">识 人 私 宴</div>
+  <div class="footer-text">© 2025 杭州金八角科技文化有限公司 · 姓名文化咨询服务</div>
+  <div class="footer-text" style="margin-top: 0.3rem;">本站内容仅供文化参考，不构成任何决策建议</div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+const DS_KEY = 'sk-5a7642c565484ec7b3f0b755fce0be3e';
+const DS_URL = 'https://api.deepseek.com/chat/completions';
+
+// ===== Navigation scroll effect =====
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 80);
+});
+
+// ===== Step-by-step input flow =====
+let currentStep = 1;
+let userData = { name: '', gender: '' };
+
+function nextStep(step) {
+  if (currentStep === 1 && !document.getElementById('nameInput').value.trim()) {
+    document.getElementById('nameInput').focus();
+    return;
+  }
+  if (currentStep === 1) userData.name = document.getElementById('nameInput').value.trim();
+  document.querySelector(`.input-stage[data-stage="${currentStep}"]`).classList.remove('active');
+  document.querySelector(`.input-stage[data-stage="${step}"]`).classList.add('active');
+  document.querySelector(`.step-dot[data-step="${currentStep}"]`).classList.remove('active');
+  document.querySelector(`.step-dot[data-step="${currentStep}"]`).classList.add('done');
+  document.querySelector(`.step-dot[data-step="${step}"]`).classList.add('active');
+  currentStep = step;
+}
+
+function selectGender(el, gender) {
+  document.querySelectorAll('.select-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  userData.gender = gender;
+}
+
+// ===== DeepSeek API Call =====
+async function callDeepSeek(systemPrompt, userPrompt) {
+  const res = await fetch(DS_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + DS_KEY },
+    body: JSON.stringify({
+      model: 'deepseek-chat',
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt }
+      ],
+      temperature: 0.85,
+      max_tokens: 2000
+    })
+  });
+  if (!res.ok) throw new Error('API 请求失败: ' + res.status);
+  const data = await res.json();
+  return data.choices[0].message.content;
+}
+
+// ===== Submit Analysis =====
+async function submitAnalysis() {
+  if (!userData.gender) return;
+
+  // Check free usage (10 free during beta)
+  if (getUsage('analysis') >= 10) {
+    if (!confirm('您今日的免费测算次数已用完。\n是否查看示例？后续可购买深度报告获取更多解读。')) return;
+    document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('staticExample').style.display = 'block';
+    document.getElementById('liveResult').style.display = 'none';
+    document.getElementById('loadingState').style.display = 'none';
+    return;
+  }
+
+  document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+  document.getElementById('loadingState').style.display = 'block';
+  document.getElementById('loadingName').textContent = userData.name;
+  document.getElementById('liveResult').style.display = 'none';
+  document.getElementById('staticExample').style.display = 'none';
+
+  const systemPrompt = `你是「识人私宴」的姓名文化顾问，精通中国姓名学三十余年。你的任务是对用户的姓名进行深度文化解读。
+
+要求：
+1. 文风要有诗意、有画面感、有文化底蕴，像一位有修养的文人在品读一个名字，不要像AI在输出报告
+2. 逐字分析每个字的字义、意象、五行属性（金木水火土），以及它们组合在一起构成的整体意境
+3. 给出对命主气质、性格倾向的解读
+4. 最后单独一段以"启示："开头，给出关于事业方向、人生态度的建议
+5. 不要用"您好""很高兴"等客套话开头，直接进入解读
+6. 不要说"作为AI"之类的话
+7. 用**包裹**关键的意象词，但不要过多（3-5处即可）
+8. 总字数控制在400-600字
+9. 这是姓名文化解读，不是算命，用"文化启示""气质方向"等表述，避免"命运""算命""预测"等词
+
+在正文之后，用 |CARD| 分隔，输出一段JSON：
+{"elements": [{"char": "X", "label": "Y"}], "poem": "第一行\\n第二行\\n第三行\\n第四行"}
+其中elements数组每项对应姓名的一个字，char是该字的五行属性（金/木/水/火/土），label是对应的字。
+poem是用姓名每个字作为每行开头的藏头诗，每行五个字，共与姓名字数相同的行数，最后追加一行"一名一世间"。`;
+
+  const userPrompt = '请解读姓名：' + userData.name + '，性别：' + userData.gender;
+
+  try {
+    const result = await callDeepSeek(systemPrompt, userPrompt);
+    const parts = result.split('|CARD|');
+    let mainText = parts[0].trim();
+    let cardData = null;
+
+    if (parts.length > 1) {
+      try {
+        const jsonMatch = parts[1].match(/\{[\s\S]*\}/);
+        if (jsonMatch) cardData = JSON.parse(jsonMatch[0]);
+      } catch(e) { console.log('Card parse error:', e); }
+    }
+
+    // Format main text
+    const paragraphs = mainText.split(/\n\n+/).filter(p => p.trim());
+    mainText = paragraphs.map(p => {
+      p = p.trim().replace(/\*\*(.*?)\*\*/g, '<span class="highlight">$1</span>');
+      if (/^启示[：:]/.test(p) || /^【启示/.test(p)) {
+        return '<div class="report-advice"><div class="report-advice-label">启 示</div><p>' + p.replace(/^[启示【】：:\s]*/g, '') + '</p></div>';
+      }
+      return '<p>' + p + '</p>';
+    }).join('');
+
+    // Fill live result
+    const nameSpaced = userData.name.split('').join(' ');
+    document.getElementById('liveResultTitle').textContent = '「' + userData.name + '」的姓名解读';
+    document.getElementById('liveReportName').textContent = nameSpaced;
+    document.getElementById('liveReportMeta').textContent = userData.gender;
+    document.getElementById('liveReportText').innerHTML = mainText;
+    document.getElementById('liveShareName').textContent = nameSpaced;
+
+    if (cardData && cardData.elements) {
+      document.getElementById('liveShareElements').innerHTML = cardData.elements
+        .map(e => '<div class="element-item"><div class="element-char">' + e.char + '</div><div class="element-label">' + e.label + '</div></div>')
+        .join('');
+    }
+    if (cardData && cardData.poem) {
+      document.getElementById('liveSharePoem').innerHTML = cardData.poem.replace(/\\n/g, '<br>').replace(/\n/g, '<br>');
+    } else {
+      document.getElementById('liveSharePoem').innerHTML = '名中有乾坤<br>字里藏山河';
+    }
+
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('liveResult').style.display = 'block';
+    addUsage('analysis');
+  } catch(err) {
+    console.error('API Error:', err);
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('staticExample').style.display = 'block';
+    alert('解读生成遇到问题，请稍后再试。\n' + err.message);
+  }
+}
+
+// ===== Submit Ask =====
+async function submitAsk() {
+  const question = document.getElementById('askTextarea').value.trim();
+  if (!question) { document.getElementById('askTextarea').focus(); return; }
+  if (!userData.name) { alert('请先在上方完成姓名测算'); return; }
+
+  if (getUsage('ask') >= 10) {
+    alert('您今日的免费「以名问事」次数已用完。\n升级为会员可享无限次问事服务。');
+    return;
+  }
+
+  document.getElementById('askSubmitBtn').style.display = 'none';
+  document.getElementById('askLoading').classList.add('visible');
+  document.getElementById('askResult').classList.remove('visible');
+
+  const systemPrompt = `你是「识人私宴」的姓名文化顾问。用户已完成姓名测算，现在提出一件心事，你需要结合其姓名信息给出有深度、有温度的分析与建议。
+要求：
+1. 文风有诗意有画面感，像智者促膝长谈
+2. 结合姓名中每个字的含义和意象来分析
+3. 给出具体可行的建议
+4. 不要用"您好"开头，直接分析
+5. 不要说"作为AI"
+6. 用"文化视角""姓名启示"等表述，避免"算命""预测命运"
+7. 300-500字`;
+
+  const userPrompt = '用户姓名：' + userData.name + '，性别：' + userData.gender + '\n用户的问题：' + question;
+
+  try {
+    let result = await callDeepSeek(systemPrompt, userPrompt);
+    result = result.replace(/\*\*(.*?)\*\*/g, '<span class="highlight">$1</span>');
+    const html = result.split(/\n\n+/).filter(p => p.trim()).map(p => '<p>' + p.trim() + '</p>').join('');
+    document.getElementById('askResultText').innerHTML = html;
+    document.getElementById('askLoading').classList.remove('visible');
+    document.getElementById('askResult').classList.add('visible');
+    addUsage('ask');
+  } catch(err) {
+    document.getElementById('askLoading').classList.remove('visible');
+    document.getElementById('askSubmitBtn').style.display = '';
+    alert('解读遇到问题，请稍后再试。');
+  }
+}
+
+// ===== Auth Modal =====
+const authTitles = { report: '注册以获取姓名全书', member: '注册以开通月度会员', master: '注册以预约大师面谈' };
+function openAuth(type) {
+  document.getElementById('authTitle').textContent = authTitles[type] || '注册 / 登录';
+  document.getElementById('authOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeAuth(e) { if (e.target === e.currentTarget) closeAuthDirect(); }
+function closeAuthDirect() { document.getElementById('authOverlay').classList.remove('active'); document.body.style.overflow = ''; }
+function sendCode() { const p = document.getElementById('authPhone').value; if (!p) { document.getElementById('authPhone').focus(); return; } alert('验证码已发送（演示模式）'); }
+function submitAuth() { alert('注册成功！即将跳转至支付页面（演示模式）'); closeAuthDirect(); }
+
+// ===== Usage Limiting =====
+function getUsage(key) {
+  try {
+    const data = JSON.parse(localStorage.getItem('srsy_usage') || '{}');
+    const today = new Date().toISOString().slice(0, 10);
+    if (data.date !== today) return 0;
+    return data[key] || 0;
+  } catch(e) { return 0; }
+}
+
+function addUsage(key) {
+  try {
+    const today = new Date().toISOString().slice(0, 10);
+    let data = {};
+    try { data = JSON.parse(localStorage.getItem('srsy_usage') || '{}'); } catch(e) {}
+    if (data.date !== today) data = { date: today };
+    data[key] = (data[key] || 0) + 1;
+    localStorage.setItem('srsy_usage', JSON.stringify(data));
+  } catch(e) {}
+}
+
+// ===== Save as Image (fixed-width for mobile, inline overlay for WeChat) =====
+async function saveAsImage(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  const btn = el.querySelector('.save-img-btn');
+  const origText = btn ? btn.innerHTML : '';
+  if (btn) btn.innerHTML = '<span style="letter-spacing:0.15em">正在生成…</span>';
+
+  try {
+    // Clone element into a fixed-width offscreen container
+    const wrapper = document.createElement('div');
+    wrapper.style.cssText = 'position:fixed;left:-9999px;top:0;width:750px;z-index:-1;';
+    document.body.appendChild(wrapper);
+
+    const clone = el.cloneNode(true);
+    const cloneBtn = clone.querySelector('.save-img-btn');
+    if (cloneBtn) cloneBtn.remove();
+    clone.style.cssText = 'transform:none;opacity:1;width:100%;';
+
+    // For share card: ensure name doesn't wrap in the fixed-width clone
+    const nameEl = clone.querySelector('.share-name-char');
+    if (nameEl) {
+      nameEl.style.fontSize = '3.5rem';
+      nameEl.style.letterSpacing = '0.3em';
+      nameEl.style.whiteSpace = 'nowrap';
+    }
+
+    wrapper.appendChild(clone);
+
+    let target = clone;
+    if (id.includes('Share') || id.includes('share')) {
+      const inner = clone.querySelector('.share-card-inner');
+      if (inner) {
+        inner.style.background = '#f5f0e8';
+        target = inner;
+      }
+    }
+
+    await new Promise(r => setTimeout(r, 300));
+
+    const canvas = await html2canvas(target, {
+      backgroundColor: (id.includes('Share') || id.includes('share')) ? '#f5f0e8' : '#1e1b17',
+      scale: 2,
+      useCORS: true,
+      logging: false,
+      width: target.scrollWidth,
+      height: target.scrollHeight
+    });
+
+    document.body.removeChild(wrapper);
+
+    const dataUrl = canvas.toDataURL('image/png');
+    const userName = userData.name || '识人私宴';
+    const type = (id.includes('Share') || id.includes('share')) ? '卡片' : '解读';
+
+    // Check if in WeChat or mobile
+    const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
+    const isMobile = /iPhone|iPad|Android/i.test(navigator.userAgent);
+
+    if (isWeChat || isMobile) {
+      // Show inline overlay - works in WeChat
+      showImageOverlay(dataUrl);
+    } else {
+      // Desktop: direct download
+      const link = document.createElement('a');
+      link.download = userName + '_' + type + '.png';
+      link.href = dataUrl;
+      link.click();
+    }
+  } catch(err) {
+    console.error('Save error:', err);
+    alert('图片生成失败，请稍后重试');
+  }
+
+  if (btn) btn.innerHTML = origText;
+}
+
+// Show fullscreen overlay with image for long-press saving
+function showImageOverlay(dataUrl) {
+  // Remove existing overlay if any
+  const existing = document.getElementById('imgSaveOverlay');
+  if (existing) existing.remove();
+
+  const overlay = document.createElement('div');
+  overlay.id = 'imgSaveOverlay';
+  overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.92);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;';
+
+  overlay.innerHTML = `
+    <div style="color:#f5f0e8;font-size:13px;letter-spacing:3px;opacity:0.5;margin-bottom:1.5rem;font-family:sans-serif;">长按图片 · 保存至相册</div>
+    <img src="${dataUrl}" style="max-width:85%;max-height:70vh;border-radius:4px;box-shadow:0 4px 30px rgba(0,0,0,0.5);">
+    <div style="margin-top:2rem;color:#c9a96e;font-size:14px;letter-spacing:2px;cursor:pointer;padding:0.8rem 2rem;border:1px solid rgba(201,169,110,0.3);font-family:sans-serif;" onclick="this.parentElement.remove();document.body.style.overflow='';">关 闭</div>
+  `;
+
+  // Click overlay background to close
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) {
+      overlay.remove();
+      document.body.style.overflow = '';
+    }
+  });
+
+  document.body.style.overflow = 'hidden';
+  document.body.appendChild(overlay);
+}
+
+// ===== Partner Card Click Toggle (for WeChat / mobile) =====
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.partner-card-hover').forEach(card => {
+    card.addEventListener('click', function(e) {
+      const isActive = this.classList.contains('active');
+      // Close all other cards first
+      document.querySelectorAll('.partner-card-hover.active').forEach(c => c.classList.remove('active'));
+      if (!isActive) this.classList.add('active');
+    });
+  });
+
+  // Close partner card when clicking outside
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.partner-card-hover')) {
+      document.querySelectorAll('.partner-card-hover.active').forEach(c => c.classList.remove('active'));
+    }
+  });
+});
+
+// ===== Scroll animations =====
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right').forEach(el => observer.observe(el));
+
+// ===== Smooth anchor scroll =====
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', function(e) { e.preventDefault(); const t = document.querySelector(this.getAttribute('href')); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+});
+</script>
+
+</body>
+</html>
